@@ -1,18 +1,18 @@
 package tribore.onlinecinema.data.network
 
 import tribore.onlinecinema.data.network.models.ResultApiModel
-import tribore.onlinecinema.domain.models.CinemaModel
-import tribore.onlinecinema.domain.models.GenresModel
+import tribore.onlinecinema.domain.models.CinemaDomainModel
+import tribore.onlinecinema.domain.models.GenresDomainModel
 
-fun ResultApiModel.toDomain(): CinemaModel {
+fun ResultApiModel.toDomain(): CinemaDomainModel {
 
-    val genresDomainModel: List<GenresModel> = genres.map {
-        GenresModel(
+    val genresDomainModel: List<GenresDomainModel> = genres.map {
+        GenresDomainModel(
             name = it.name
         )
     }
 
-    return CinemaModel(
+    return CinemaDomainModel(
         adult = this.adult,
         genres = genresDomainModel,
         id = this.id,

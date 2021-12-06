@@ -5,37 +5,21 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
-import tribore.onlinecinema.R
+import org.koin.android.viewmodel.ext.android.viewModel
 import tribore.onlinecinema.databinding.FragmentHomeBinding
-import tribore.onlinecinema.ui.view_model.MyViewModel
-import tribore.onlinecinema.util.setImageUrl
+import tribore.onlinecinema.ui.view_model.HomeViewModel
 
 class HomeFragment : Fragment() {
-    private val viewModel: MyViewModel by viewModels()
-    lateinit var binding: FragmentHomeBinding
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    private val viewModel: HomeViewModel by viewModel<HomeViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentHomeBinding.inflate(inflater)
+        //val binding = GridViewItemBinding.inflate(inflater)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
-
         return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-    }
-
-    companion object {
-
     }
 }

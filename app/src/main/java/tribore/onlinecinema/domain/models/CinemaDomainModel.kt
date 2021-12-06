@@ -1,8 +1,8 @@
 package tribore.onlinecinema.domain.models
 
-data class CinemaModel(
+data class CinemaDomainModel(
     val adult: Boolean,
-    val genres: List<GenresModel>,
+    val genres: List<GenresDomainModel>,
     val id: Int,
     val overview: String,
     val popularity: Double,

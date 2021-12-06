@@ -63,7 +63,7 @@ dependencies {
     //kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshi_version"
 
     // Koin for di
-    def koin_version = "2.2.3"
+    def koin_version = "2.0.1"
     implementation "io.insert-koin:koin-android:$koin_version" // does not work with version 3.1.4
     implementation "io.insert-koin:koin-android-viewmodel:$koin_version"
 
@@ -77,8 +77,9 @@ dependencies {
     implementation "android.arch.navigation:navigation-fragment-ktx:$nav_version"
     implementation "android.arch.navigation:navigation-ui-ktx:$nav_version"
 
-    // Glide for images
+    // Coil for images
     def glide_version = "4.12.0"
+    implementation "io.coil-kt:coil:1.1.1"
     implementation "com.github.bumptech.glide:glide:$glide_version"
     kapt "com.github.bumptech.glide:compiler:$glide_version"
 
