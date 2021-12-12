@@ -1,12 +1,20 @@
 package tribore.onlinecinema.util
 
-import android.widget.ImageView
-import androidx.core.net.toUri
+import android.view.View
 import androidx.databinding.BindingAdapter
-import coil.load
-import tribore.onlinecinema.R
 
-@BindingAdapter("imageUrl")
+
+
+@BindingAdapter("isNetworkError", "cinema")
+fun hideIfNetworkError(view: View, isNetWorkError: Boolean, playlist: Any?) {
+    view.visibility = if (playlist != null) View.GONE else View.VISIBLE
+
+    if(isNetWorkError) {
+        view.visibility = View.GONE
+    }
+}
+
+/*@BindingAdapter("imageUrl")
 fun setImageUrl(imageView: ImageView, url: String?) {
     url?.let {
         val imgUri = url
@@ -20,3 +28,11 @@ fun setImageUrl(imageView: ImageView, url: String?) {
         }
     }
 }
+
+// Используется для привязки макета xml с данными
+@BindingAdapter("listCinema")
+fun bindRecyclerView(recyclerView: RecyclerView, data: List<CinemaDomainModel>?) {
+    val adapter = recyclerView.adapter as CinemaListAdapter
+    adapter.submitList(data)
+}*/
+

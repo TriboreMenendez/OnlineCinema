@@ -1,6 +1,5 @@
 package tribore.onlinecinema.data.repository
 
-import tribore.onlinecinema.data.network.CinemaNetworkApi
 import tribore.onlinecinema.data.network.CinemaNetworkService
 import tribore.onlinecinema.data.network.toDomain
 import tribore.onlinecinema.domain.models.CinemaDomainModel

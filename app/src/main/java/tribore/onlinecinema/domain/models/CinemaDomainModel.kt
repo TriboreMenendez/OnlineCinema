@@ -10,7 +10,7 @@ data class CinemaDomainModel(
     val releaseDate: String,
     val title: String,
     val video: String,
-    val voteAverage: Double,
+    val voteAverage: Double, // Рейтинг от 1 до 10
     val voteCount: Int
 )
 

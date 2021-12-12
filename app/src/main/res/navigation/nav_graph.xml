@@ -9,5 +9,29 @@
         android:id="@+id/homeFragment"
         android:name="tribore.onlinecinema.ui.presentation.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_infoCinemaFragment"
+            app:destination="@id/infoCinemaFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/infoCinemaFragment"
+        android:name="tribore.onlinecinema.ui.presentation.InfoCinemaFragment"
+        android:label="fragment_info_cinema"
+        tools:layout="@layout/fragment_info_cinema" >
+        <action
+            android:id="@+id/action_infoCinemaFragment_to_playerFragment"
+            app:destination="@id/playerFragment" />
+        <action
+            android:id="@+id/action_infoCinemaFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/playerFragment"
+        android:name="tribore.onlinecinema.ui.presentation.PlayerFragment"
+        android:label="PlayerFragment" >
+        <action
+            android:id="@+id/action_playerFragment_to_infoCinemaFragment"
+            app:destination="@id/infoCinemaFragment" />
+    </fragment>
 </navigation>

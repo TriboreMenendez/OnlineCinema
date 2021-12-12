@@ -1,9 +1,7 @@
 package tribore.onlinecinema.ui.view_model
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import android.app.Application
+import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 import tribore.onlinecinema.data.repository.CinemaRepositoryImpl
 import tribore.onlinecinema.domain.models.CinemaDomainModel
@@ -11,26 +9,37 @@ import tribore.onlinecinema.domain.usecase.GetCinemaUseCase
 
 import java.io.IOException
 
-class HomeViewModel(private val cinemaRepositoryImpl: CinemaRepositoryImpl): ViewModel() {
-    private val _status = MutableLiveData<String>()
-    val status: LiveData<String> = _status
+class HomeViewModel(private val cinemaRepositoryImpl: CinemaRepositoryImpl) : ViewModel() {
 
-    private val _movie = MutableLiveData<List<CinemaDomainModel>>()
-    val movie: LiveData<List<CinemaDomainModel>> = _movie
+    private val _playlist = MutableLiveData<List<CinemaDomainModel>>()
+    val playlist: LiveData<List<CinemaDomainModel>> = _playlist
+
+    private var _eventNetworkError = MutableLiveData<Boolean>(false)
+    val eventNetworkError: LiveData<Boolean> = _eventNetworkError
+
+    private var _isNetworkErrorShown = MutableLiveData<Boolean>(false)
+    val isNetworkErrorShown: LiveData<Boolean> = _isNetworkErrorShown
 
     init {
-        getCinemaAll()
+        refreshDataFromNetwork()
     }
 
-    private fun getCinemaAll() {
-        viewModelScope.launch {
-            try {
-                _movie.value = GetCinemaUseCase(cinemaRepositoryImpl).getCinema()
-                _status.value = cinemaRepositoryImpl.getCinema()[0].posterPath
+    private fun refreshDataFromNetwork() = viewModelScope.launch {
+        try {
+            val playlist = GetCinemaUseCase(cinemaRepositoryImpl).getCinema()
+            _playlist.postValue(playlist)
 
-            } catch (networkError: IOException) {
-                _status.value = "Fail"
-            }
+            _eventNetworkError.value = false
+            _isNetworkErrorShown.value = false
+
+        } catch (networkError: IOException) {
+            _eventNetworkError.value = false
+            _playlist.value = listOf()
         }
     }
+
+    fun onNetworkErrorShown() {
+        _isNetworkErrorShown.value = true
+    }
+
 }
