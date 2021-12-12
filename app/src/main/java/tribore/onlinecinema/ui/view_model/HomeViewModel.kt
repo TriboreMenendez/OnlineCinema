@@ -1,45 +1,46 @@
 package tribore.onlinecinema.ui.view_model
 
-import android.app.Application
 import androidx.lifecycle.*
 import kotlinx.coroutines.launch
+import tribore.onlinecinema.CinemaApplication
 import tribore.onlinecinema.data.repository.CinemaRepositoryImpl
 import tribore.onlinecinema.domain.models.CinemaDomainModel
 import tribore.onlinecinema.domain.usecase.GetCinemaUseCase
 
 import java.io.IOException
 
-class HomeViewModel(private val cinemaRepositoryImpl: CinemaRepositoryImpl) : ViewModel() {
+class HomeViewModel(
+    private val cinemaRepositoryImpl: CinemaRepositoryImpl
+) : AndroidViewModel(CinemaApplication()) {
 
+    // Модель данных
     private val _playlist = MutableLiveData<List<CinemaDomainModel>>()
     val playlist: LiveData<List<CinemaDomainModel>> = _playlist
 
-    private var _eventNetworkError = MutableLiveData<Boolean>(false)
-    val eventNetworkError: LiveData<Boolean> = _eventNetworkError
+    // Контроль интернет соединения
+    private var _isNetworkError = MutableLiveData<Boolean>(false)
+    val isNetworkError: LiveData<Boolean> = _isNetworkError
 
-    private var _isNetworkErrorShown = MutableLiveData<Boolean>(false)
-    val isNetworkErrorShown: LiveData<Boolean> = _isNetworkErrorShown
+    // Отображение статус бара
+    private var _isStatusLoad = MutableLiveData<Boolean>(true)
+    val isStatusLoad: LiveData<Boolean> = _isStatusLoad
 
     init {
         refreshDataFromNetwork()
     }
 
+    // Апи запрос с обработкой исключений
     private fun refreshDataFromNetwork() = viewModelScope.launch {
         try {
             val playlist = GetCinemaUseCase(cinemaRepositoryImpl).getCinema()
             _playlist.postValue(playlist)
-
-            _eventNetworkError.value = false
-            _isNetworkErrorShown.value = false
+            _isNetworkError.value = false
+            _isStatusLoad.value = false
 
         } catch (networkError: IOException) {
-            _eventNetworkError.value = false
+            _isNetworkError.value = true
+            _isStatusLoad.value = false
             _playlist.value = listOf()
         }
     }
-
-    fun onNetworkErrorShown() {
-        _isNetworkErrorShown.value = true
-    }
-
 }

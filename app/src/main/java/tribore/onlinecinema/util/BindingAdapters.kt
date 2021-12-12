@@ -1,20 +1,17 @@
 package tribore.onlinecinema.util
 
 import android.view.View
+import android.widget.ImageView
+import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.RecyclerView
+import coil.load
+import tribore.onlinecinema.R
+import tribore.onlinecinema.domain.models.CinemaDomainModel
+import tribore.onlinecinema.ui.adapter.CinemaAdapter
 
-
-
-@BindingAdapter("isNetworkError", "cinema")
-fun hideIfNetworkError(view: View, isNetWorkError: Boolean, playlist: Any?) {
-    view.visibility = if (playlist != null) View.GONE else View.VISIBLE
-
-    if(isNetWorkError) {
-        view.visibility = View.GONE
-    }
-}
-
-/*@BindingAdapter("imageUrl")
+// Привязка загрузчика изображений
+@BindingAdapter("imageUrl")
 fun setImageUrl(imageView: ImageView, url: String?) {
     url?.let {
         val imgUri = url
@@ -29,10 +26,25 @@ fun setImageUrl(imageView: ImageView, url: String?) {
     }
 }
 
-// Используется для привязки макета xml с данными
-@BindingAdapter("listCinema")
+// Привязка ресайклера к нашей модели данных
+@BindingAdapter("listData")
 fun bindRecyclerView(recyclerView: RecyclerView, data: List<CinemaDomainModel>?) {
-    val adapter = recyclerView.adapter as CinemaListAdapter
+    val adapter = recyclerView.adapter as CinemaAdapter
     adapter.submitList(data)
-}*/
+}
+
+// Привязка отображения ошибки при отсутствии интернета
+@BindingAdapter("statusNetwork")
+fun statusNetwork(view: View, status: Boolean) {
+    when (status) {
+        true -> view.visibility = View.VISIBLE
+        false -> view.visibility = View.GONE
+    }
+}
+
+// Привязка отображения статуса загрузки данных
+@BindingAdapter("statusLoad")
+fun statusLoad(view: View, status: Boolean) {
+    if (!status) view.visibility = View.GONE
+}
 

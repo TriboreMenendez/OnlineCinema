@@ -7,17 +7,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import tribore.onlinecinema.R
+import tribore.onlinecinema.databinding.FragmentInfoCinemaBinding
 
 
 class InfoCinemaFragment : Fragment() {
 
-    /*override fun onCreateView(
+    override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        //val binding = FragmentInfoCinemaBinding.inflate(inflater)
-        //return binding.root
-    }*/
+        val binding = FragmentInfoCinemaBinding.inflate(inflater)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

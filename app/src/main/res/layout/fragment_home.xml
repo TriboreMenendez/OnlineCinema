@@ -8,30 +8,76 @@
         <variable
             name="viewModel"
             type="tribore.onlinecinema.ui.view_model.HomeViewModel" />
+
     </data>
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.presentation.HomeFragment">
 
+        <ProgressBar
+            android:id="@+id/loading_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:statusLoad="@{viewModel.isStatusLoad}"/>
+
         <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <ProgressBar
-                android:id="@+id/loading_spinner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                 />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:playlist="@{viewModel.playlist}"
-                tools:listitem="@layout/cinema_item" />
+                android:orientation="vertical"
+                app:statusNetwork="@{safeUnbox(viewModel.isNetworkError)}"
+                tools:ignore="UseCompoundDrawables">
+
+                <ImageView
+                    android:id="@+id/errorNetworkImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    app:srcCompat="@drawable/ic_error"
+                    android:shadowColor="@color/black"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/error_network"
+                    android:textSize="20sp"
+                    app:layout_constraintTop_toTopOf="@id/errorNetworkImage" />
+            </LinearLayout>
+
         </FrameLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:clipToPadding="false"
+            android:padding="6dp"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:listData="@{viewModel.playlist}"
+            tools:listitem="@layout/cinema_item">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
