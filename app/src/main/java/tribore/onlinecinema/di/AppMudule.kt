@@ -8,7 +8,7 @@ import tribore.onlinecinema.ui.view_model.HomeViewModel
 
 val appModule = module {
 
-    viewModel<HomeViewModel> {
+    single<HomeViewModel> {
         HomeViewModel(get<CinemaRepositoryImpl>())
     }
 }

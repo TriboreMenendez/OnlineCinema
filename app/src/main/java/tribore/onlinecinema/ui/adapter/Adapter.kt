@@ -9,9 +9,9 @@ import tribore.onlinecinema.databinding.CinemaItemBinding
 import tribore.onlinecinema.domain.models.CinemaDomainModel
 
 class CinemaAdapter(val clickListener: CinemaClick) :
-    ListAdapter<CinemaDomainModel, CinemaAdapter.MarsPhotosViewHolder>(DiffCallback) {
+    ListAdapter<CinemaDomainModel, CinemaAdapter.CinemaViewHolder>(DiffCallback) {
 
-    class MarsPhotosViewHolder(private var binding: CinemaItemBinding) :
+    class CinemaViewHolder(private var binding: CinemaItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(cinemaItem: CinemaDomainModel, clickListener: CinemaClick) {
@@ -28,31 +28,35 @@ class CinemaAdapter(val clickListener: CinemaClick) :
             oldItem: CinemaDomainModel,
             newItem: CinemaDomainModel
         ): Boolean {
-            return oldItem.id == newItem.id
+            return oldItem == newItem
         }
 
         override fun areContentsTheSame(
             oldItem: CinemaDomainModel,
             newItem: CinemaDomainModel
         ): Boolean {
-            return oldItem.posterPath == newItem.posterPath
+            return oldItem == newItem
         }
     }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): MarsPhotosViewHolder {
-        return MarsPhotosViewHolder(
+    ): CinemaViewHolder {
+        return CinemaViewHolder(
             CinemaItemBinding.inflate(LayoutInflater.from(parent.context))
         )
     }
 
-    override fun onBindViewHolder(holder: MarsPhotosViewHolder, position: Int) {
-        val cinema = getItem(position)
-        holder.bind(cinema, clickListener)
+    override fun onBindViewHolder(holder: CinemaViewHolder, position: Int) {
+        holder.bind(getItem(position), clickListener)
     }
 }
+
+
+/*class CinemaClick(val click: (CinemaDomainModel) -> Unit) {
+    fun onClick(cinema: CinemaDomainModel) = click(cinema)
+}*/
 
 class CinemaClick(val click: (CinemaDomainModel) -> Unit) {
     fun onClick(cinema: CinemaDomainModel) = click(cinema)

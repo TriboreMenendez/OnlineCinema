@@ -4,29 +4,39 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-    <variable
-        name="cinema"
-        type="tribore.onlinecinema.domain.models.CinemaDomainModel" />
+
+        <variable
+            name="viewModel"
+            type="tribore.onlinecinema.ui.view_model.HomeViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
+        >
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="350dp"
-            android:fitsSystemWindows="true">
+            android:fitsSystemWindows="true"
+            app:liftOnScroll="true">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
-                app:contentScrim="?attr/colorPrimary"
-                app:expandedTitleMarginEnd="64dp"
-                app:expandedTitleMarginStart="48dp"
+                app:expandedTitleMarginEnd="72dp"
+                app:expandedTitleMarginStart="28dp"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+                <com.google.android.material.appbar.MaterialToolbar
+                    android:id="@+id/topAppBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:navigationIcon="@drawable/ic_baseline_backspace"
+                    style="@style/Widget.MaterialComponents.Toolbar.Primary"
+                    android:fitsSystemWindows="true"
+                    app:layout_scrollFlags="scroll|enterAlways|snap" />
 
                 <ImageView
                     android:id="@+id/imageView"
@@ -34,6 +44,8 @@
                     android:layout_height="match_parent"
                     android:fitsSystemWindows="true"
                     android:scaleType="centerCrop"
+                    app:imageUrl="@{viewModel.selectedCinema.posterPath}"
+                    tools:ignore="ContentDescription"
                     tools:srcCompat="@tools:sample/avatars" />
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
@@ -42,27 +54,57 @@
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            style="@style/Widget.MaterialComponents.Toolbar.Primary">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_margin="16dp">
+                android:layout_margin="16dp"
+                android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textView3"
+                    android:id="@+id/titleText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{cinema.title}"
-                    tools:text="Video title"/>
+                    android:text="@{viewModel.selectedCinema.title}"
+                    tools:text="Video title"
+                    android:layout_marginBottom="6dp"
+                    android:textAppearance="?attr/textAppearanceHeadline5"
+                    android:textColor="?attr/colorOnPrimary"
+                    />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button2"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:text="Play"
+                    android:backgroundTint="?attr/colorSecondary"
+                    android:textColor="?attr/colorOnSecondary"
+                    android:layout_marginBottom="16dp"
+                    style="@style/Widget.MaterialComponents.Button.Icon"
+                    app:icon="@drawable/ic_baseline_play"
+                    app:iconTint="?attr/colorOnSecondary"
+                    app:iconSize="40dp"/>
 
                 <TextView
-                    android:id="@+id/textView4"
+                    android:id="@+id/textView2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{cinema.overview}"
-                    tools:text="Video description"/>
+                    android:text="Overview"
+                    android:layout_marginBottom="4dp"
+                    android:textAppearance="?attr/textAppearanceHeadline6"
+                    android:textColor="?attr/colorOnPrimary" />
+
+                <TextView
+                    android:id="@+id/overviewText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewModel.selectedCinema.overview}"
+                    tools:text="Video description"
+                    android:textAppearance="?attr/textAppearanceBody1"
+                    android:textColor="?attr/colorOnPrimary"/>
+
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 
