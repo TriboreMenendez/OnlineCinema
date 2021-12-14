@@ -13,14 +13,17 @@
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            >
 
             <androidx.media3.ui.StyledPlayerView
                 android:id="@+id/player_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:controller_layout_id="@layout/custom_controller_layout"
-                app:hide_on_touch="true" />
+                app:hide_on_touch="true"
+
+                />
         </androidx.media3.ui.AspectRatioFrameLayout>
 
     </FrameLayout>

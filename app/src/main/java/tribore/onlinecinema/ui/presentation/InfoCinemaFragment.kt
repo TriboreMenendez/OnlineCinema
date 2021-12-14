@@ -11,6 +11,7 @@ import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tribore.onlinecinema.R
 import tribore.onlinecinema.databinding.FragmentInfoCinemaBinding
+import tribore.onlinecinema.ui.player.CinemaItem
 import tribore.onlinecinema.ui.view_model.HomeViewModel
 
 class InfoCinemaFragment : Fragment() {
@@ -35,7 +36,7 @@ class InfoCinemaFragment : Fragment() {
         }
         binding.button2.setOnClickListener {
             findNavController().navigate(R.id.action_infoCinemaFragment_to_playerFragment)
+            CinemaItem.setItem(homeViewModel.selectedCinema.value?.video!!)
         }
     }
-
 }

@@ -4,21 +4,26 @@ import android.content.ComponentName
 import android.content.pm.ActivityInfo
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
+import androidx.media3.common.MediaItem
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.session.MediaController
+import androidx.media3.session.MediaSessionService
 import androidx.media3.session.SessionToken
 import androidx.media3.ui.StyledPlayerView
 import com.google.common.util.concurrent.ListenableFuture
 import com.google.common.util.concurrent.MoreExecutors
 import tribore.onlinecinema.R
 import tribore.onlinecinema.databinding.FragmentPlayerBinding
+import tribore.onlinecinema.ui.player.CinemaItem
 import tribore.onlinecinema.ui.player.PlaybackService
 
 @androidx.annotation.OptIn(UnstableApi::class)
 class PlayerFragment : Fragment() {
+
     lateinit var binding: FragmentPlayerBinding
     private lateinit var playerView: StyledPlayerView
     lateinit var sessionToken: SessionToken
@@ -26,10 +31,6 @@ class PlayerFragment : Fragment() {
 
     private val controller: MediaController?
         get() = if (mediaController.isDone) mediaController.get() else null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,38 +50,35 @@ class PlayerFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         initializeController()
-        //playerView.player?.play()
     }
 
-    fun pause() {
-        controller?.pause()
-    }
-
-    fun play() {
+    override fun onResume() {
+        super.onResume()
         controller?.play()
     }
 
-    // Launch player + controller binding ExoPlayer to a controller VideoView
+    override fun onPause() {
+        super.onPause()
+        controller?.pause()
+        activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_USER
+    }
+
+    // Запуск сессии + и привязываем котроллер ExoPlayer к контроллеру VideoView
     fun initializeController() {
-        sessionToken = SessionToken(activity!!, ComponentName(activity!!, PlaybackService::class.java))
+        sessionToken =
+            SessionToken(activity!!, ComponentName(activity!!, PlaybackService::class.java))
 
         mediaController = MediaController.Builder(
             activity!!,
             sessionToken
         ).buildAsync()
 
-
         mediaController.addListener({
-            setController()
+            playerView.player = mediaController.get()
         }, MoreExecutors.directExecutor())
     }
 
-    private fun setController() {
-        val controller = this.controller ?: return
-
-        playerView.player = controller
-    }
-
+    // Скрываем системную панель и устанавливаем
     private fun hideSystemBars() {
         val activityWindow = activity!!.window
 
@@ -105,6 +103,7 @@ class PlayerFragment : Fragment() {
         }
     }
 
+    // Возвращаем системную панель
     private fun showSystemBars() {
         val activityWindow = activity!!.window
         activityWindow.let {

@@ -31,10 +31,12 @@
 
         <service
             android:name=".ui.player.PlaybackService"
-            android:exported="false">
+            android:exported="false"
+            android:stopWithTask="true">
             <intent-filter>
                 <action android:name="androidx.media3.session.MediaSessionService"/>
                 <action android:name="android.media.browse.MediaBrowserService"/>
+
             </intent-filter>
         </service>
 

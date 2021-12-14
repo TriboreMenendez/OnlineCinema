@@ -46,7 +46,7 @@ class HomeViewModel(
             _playlist.postValue(playlist)
             _isNetworkError.value = false
             _isStatusLoad.value = false
-        } catch (networkError: IOException) {
+        } catch (e: IOException) {
             _isNetworkError.value = true
             _isStatusLoad.value = false
             _playlist.value = listOf()
