@@ -16,6 +16,7 @@ import tribore.onlinecinema.ui.adapter.CinemaAdapter
 import tribore.onlinecinema.ui.adapter.CinemaClick
 import tribore.onlinecinema.ui.view_model.HomeViewModel
 
+
 class HomeFragment : Fragment() {
     private val homeViewModel: HomeViewModel by inject()
 
@@ -41,6 +42,10 @@ class HomeFragment : Fragment() {
     private fun goInfoCinema(cinema: CinemaDomainModel) {
         homeViewModel.test(cinema)
         findNavController().navigate(R.id.action_homeFragment_to_infoCinemaFragment)
+    }
+
+    override fun onStop() {
+        super.onStop()
     }
 
 }
